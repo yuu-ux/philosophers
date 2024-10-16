@@ -43,10 +43,11 @@ int main(int argc, char **argv)
     }
     else
     {
+        philos = (t_philo *)malloc(sizeof(t_philo) * ft_atol(argv[1]));
         if (validate_arg(argv) == 1)
             return (1);
-        init_program(&program, philos);
-        init_fork();
+        init_program(&program, philos, argv);
+        //init_fork();
         //init_philos();
         //create_thread();
         //destory_all();

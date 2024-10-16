@@ -45,3 +45,6 @@ int     validate_arg(char **argv);
 // init.c
 void    init_program(t_program *program, t_philo *philos, char **argv);
 void    init_philos(t_program program, t_philo *philos, char **argv);
+
+// utils.c
+size_t  get_current_time();

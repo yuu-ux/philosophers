@@ -22,6 +22,7 @@ void    init_philos(t_program program, t_philo *philos, char **argv)
 void    init_program(t_program *program, t_philo *philos, char **argv)
 {
     program->num_of_philos = ft_atol(argv[1]);
+    init_philos(*program, philos, argv);
     program->philos = philos;
     pthread_mutex_init(&program->think_mtx, NULL);
     pthread_mutex_init(&program->meal_mtx, NULL);

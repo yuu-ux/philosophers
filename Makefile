@@ -11,18 +11,17 @@
 # **************************************************************************** #
 
 
-SRCS = main.c
-
-NAME = philosophers.a
+FILES = main.c init.c utils.c validate.c
+PHILO = philo.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+SRCS = $(addprefix ./src/, $(FILES))
+OBJS = $(SRCS:.c=.o)
 
-OBJS = $(SRURCES:.c=.o)
+all: $(PHILO)
 
-all: $(NAME)
-
-$(NAME): $(OBJS)
-	$(AR) rcs $@ $^
+$(PHILO): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -31,7 +30,7 @@ clean:
 	$(RM) $(SRCS:.c=.o)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(PHILO)
 
 re: fclean all
 
