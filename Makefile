@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 
-FILES = main.c init.c utils.c validate.c
+FILES = main.c init.c utils.c validate.c thread_func.c create_thread.c
 PHILO = philo.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror

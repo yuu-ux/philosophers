@@ -47,9 +47,7 @@ int main(int argc, char **argv)
         if (validate_arg(argv) == 1)
             return (1);
         init_program(&program, philos, argv);
-        //init_fork();
-        //init_philos();
-        //create_thread();
+        create_thread(program, philos);
         //destory_all();
     }
     return (0);
