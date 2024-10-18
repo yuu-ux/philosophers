@@ -1,6 +1,7 @@
 #ifndef H_PHILO_H
 # define H_PHILO_H
 #include <stdio.h>
+#include <string.h>
 #include <limits.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -30,14 +31,14 @@ typedef struct s_philo {
     size_t      last_meal_time;
     size_t      start_time;
     bool        is_dead;
-    t_mtx       *left_fork;
-    t_mtx       *right_fork;
+    t_mtx       left_fork;
+    t_mtx       right_fork;
 } t_philo;
 
 typedef struct s_program {
-    t_mtx   *think_mtx;
-    t_mtx   *meal_mtx;
-    t_mtx   *death_mtx;
+    t_mtx   think_mtx;
+    t_mtx   meal_mtx;
+    t_mtx   death_mtx;
     int     num_of_philos;
     t_philo *philos;
 } t_program;
@@ -64,4 +65,5 @@ void    eating(t_philo *philos);
 void    sleeping(t_philo *philos);
 void    thinking(t_philo *philos);
 void    *monitor(void *arg);
+
 #endif

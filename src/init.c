@@ -7,8 +7,8 @@ void    init_fork(t_program program, t_philo *philos)
     i = 0;
     while (i < program.num_of_philos)
     {
-        pthread_mutex_init(philos[i].left_fork, NULL);
-        pthread_mutex_init(philos[i].right_fork, NULL);
+        pthread_mutex_init(&philos[i].left_fork, NULL);
+        pthread_mutex_init(&philos[i].right_fork, NULL);
         i++;
     }
 }
@@ -38,7 +38,7 @@ void    init_program(t_program *program, t_philo *philos, char **argv)
     init_philos(*program, philos, argv);
     init_fork(*program, philos);
     program->philos = philos;
-    pthread_mutex_init(program->think_mtx, NULL);
-    pthread_mutex_init(program->meal_mtx, NULL);
-    pthread_mutex_init(program->death_mtx, NULL);
+    pthread_mutex_init(&program->think_mtx, NULL);
+    pthread_mutex_init(&program->meal_mtx, NULL);
+    pthread_mutex_init(&program->death_mtx, NULL);
 }

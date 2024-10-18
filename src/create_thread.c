@@ -21,10 +21,11 @@ int    create_thread(t_program program, t_philo *philos)
     i = 0;
     while (i < program.num_of_philos)
     {
-        if (pthread_create(&philos->thread, NULL, action_philo, &philos[i]) == -1)
-            return (false);
+        if (pthread_create(&philos[i].thread, NULL, action_philo, &philos[i]) != 0)
+            return (1);
+        if (pthread_join(philos[i].thread, NULL) != 0)
+            return (1);
         i++;
     }
-    pthread_join(philos->thread, NULL);
-    return 0;
+    return (0);
 }
