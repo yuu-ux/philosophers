@@ -24,10 +24,11 @@ void    init_philos(t_program program, t_philo *philos, char **argv)
         philos[i].time_to_die = ft_atol(argv[2]);
         philos[i].time_to_eat = ft_atol(argv[3]);
         philos[i].time_to_sleep = ft_atol(argv[4]);
-        philos[i].num_times_to_eat = ft_atol(argv[5]);
-        philos[i].meals_count = get_current_time();
+        philos[i].last_time = get_current_time();
         philos[i].start_time = get_current_time();
         philos[i].is_dead = false;
+        if (argv[5])
+            philos[i].num_times_to_eat = ft_atol(argv[5]);
         i++;
     }
 }

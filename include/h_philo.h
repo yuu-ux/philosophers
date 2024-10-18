@@ -16,6 +16,7 @@ typedef pthread_mutex_t t_mtx;
 enum STATUS {
     MEAL,
     SLEEP,
+    THINK,
     DIE,
 };
 
@@ -27,8 +28,7 @@ typedef struct s_philo {
     size_t      time_to_eat;
     size_t      time_to_sleep;
     int         num_times_to_eat;
-    int         meals_count;
-    size_t      last_meal_time;
+    size_t      last_time;
     size_t      start_time;
     bool        is_dead;
     t_mtx       left_fork;
@@ -58,12 +58,12 @@ size_t  get_current_time();
 
 // create_thread.c
 int    create_thread(t_program program, t_philo *philos);
-void *action_philo(void *arg);
+void *action_philo(void *_philo);
 
 // thread_func.c
 void    eating(t_philo *philos);
 void    sleeping(t_philo *philos);
 void    thinking(t_philo *philos);
-void    *monitor(void *arg);
+void    *monitor(void *_philo);
 
 #endif

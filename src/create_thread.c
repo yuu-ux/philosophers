@@ -1,17 +1,19 @@
 #include "../include/h_philo.h"
 
-void    *action_philo(void *arg)
+void    *action_philo(void *_philo)
 {
-    t_philo *philos;
+    t_philo *philo;
 
-    philos = (t_philo *)arg;
+    philo = (t_philo *)_philo;
     while (1)
     {
-        eating(philos);
-        sleeping(philos);
-        thinking(philos);
-        monitor(philos);
+        eating(philo);
+        sleeping(philo);
+        thinking(philo);
+        if (monitor(philo) == NULL)
+            break ;
     }
+    return NULL;
 }
 
 int    create_thread(t_program program, t_philo *philos)
