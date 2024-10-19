@@ -28,15 +28,20 @@ typedef struct s_philo {
     size_t      time_to_eat;
     size_t      time_to_sleep;
     int         num_times_to_eat;
+    int         meal_count;
     size_t      last_time;
     size_t      start_time;
     bool        is_dead;
     t_mtx       left_fork;
     t_mtx       right_fork;
+    t_mtx       *write_mtx;
+    t_mtx       *meal_mtx;
+    t_mtx       *death_mtx;
+    int         num_of_philos;
 } t_philo;
 
 typedef struct s_program {
-    t_mtx   think_mtx;
+    t_mtx   write_mtx;
     t_mtx   meal_mtx;
     t_mtx   death_mtx;
     int     num_of_philos;
@@ -50,8 +55,8 @@ long    ft_atol(char *str);
 int     validate_arg(char **argv);
 
 // init.c
-void    init_program(t_program *program, t_philo *philos, char **argv);
-void    init_philos(t_program program, t_philo *philos, char **argv);
+bool    init_program(t_program *program, t_philo *philos, t_mtx *forks, char **argv);
+void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **argv);
 
 // utils.c
 size_t  get_current_time();

@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 {
     t_program   program;
     t_philo     *philos;
+    t_mtx       *forks;
 
     if (!(argc == 5 || argc == 6))
     {
@@ -43,10 +44,15 @@ int main(int argc, char **argv)
     }
     else
     {
-        philos = (t_philo *)malloc(sizeof(t_philo) * ft_atol(argv[1]));
+        philos = (t_philo *)malloc(sizeof(t_philo) * program.num_of_philos);
+        if (!philos)
+            return (write(2, "Malloc Error\n", 13), 1);
+        forks = (t_mtx *)malloc(sizeof(t_mtx) * program.num_of_philos);
+        if (!forks)
+            return (write(2, "Malloc Error\n", 13), 1);
         if (validate_arg(argv) == 1)
             return (1);
-        init_program(&program, philos, argv);
+        init_program(&program, philos, forks, argv);
         create_thread(program, philos);
         //destory_all();
     }
