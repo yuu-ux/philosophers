@@ -1,5 +1,4 @@
 #include "../include/h_philo.h"
-#include <pthread.h>
 
 void    print_message(t_philo *philo, char *message)
 {
@@ -34,19 +33,3 @@ void    thinking(t_philo *philo)
     print_message(philo, "is thinking");
 }
 
-void    *monitor(void *_philo)
-{
-    t_philo *philo;
-    size_t  current_date;
-
-    philo = (t_philo *)_philo;
-    current_date = get_current_time();
-    while (1)
-    {
-        if (philo->time_to_die < (current_date - philo->start_time))
-            return (print_message(philo, "is died"), NULL);
-        if (philo->num_times_to_eat < philo->meal_count)
-            return (print_message(philo, "is died"), NULL);
-    }
-    return philo;
-}

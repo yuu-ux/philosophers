@@ -66,6 +66,7 @@ int    create_thread(t_program program, t_philo *philos);
 void *action_philo(void *_philo);
 
 // thread_func.c
+void    print_message(t_philo *philo, char *message);
 void    eating(t_philo *philos);
 void    sleeping(t_philo *philos);
 void    thinking(t_philo *philos);
