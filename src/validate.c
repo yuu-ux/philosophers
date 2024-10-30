@@ -31,3 +31,4 @@ int validate_arg(char **argv)
     }
     return (0);
 }
+

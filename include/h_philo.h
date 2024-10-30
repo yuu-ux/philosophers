@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include <errno.h>
 
 #define MAX_PHILO 200
 #define MIN_TIME 60
@@ -55,11 +56,13 @@ long    ft_atol(char *str);
 int     validate_arg(char **argv);
 
 // init.c
-bool    init_program(t_program *program, t_philo *philos, t_mtx *forks, char **argv);
-void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **argv);
+bool	init_program(t_program *program, t_philo *philos, t_mtx *forks, char **argv);
+void	init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **argv);
 
 // utils.c
 size_t  get_current_time();
+int	ft_isspace(int c);
+void	destroy_all(t_philo *philos, t_mtx *forks);
 
 // create_thread.c
 int    create_thread(t_program program, t_philo *philos);
