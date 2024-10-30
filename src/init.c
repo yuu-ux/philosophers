@@ -10,12 +10,15 @@ bool	alloc_philos_forks(t_program program, t_philo **philos, t_mtx **forks)
 		return (write(2, "Malloc Error\n", 13), false);
 	while (i < program.num_of_philos)
 	{
-		philos[i] = (t_philo *)malloc(sizeof(t_philo *));
+		philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!philos[i])
 		{
-			while (i < 0)
+			while (i > 0)
 				free(philos[i--]);
+			free(*philos);
+			return (write(2, "Malloc Error\n", 13), false);
 		}
+		i++;
 	}
 	*forks = (t_mtx *)malloc(sizeof(t_mtx) * program.num_of_philos);
 	if (!(*forks))
