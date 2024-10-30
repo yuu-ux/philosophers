@@ -25,6 +25,7 @@ void    eating(t_philo *philo)
 
 void    sleeping(t_philo *philo)
 {
+    ft_usleep(philo->time_to_sleep);
     print_message(philo, "is sleeping");
 }
 
