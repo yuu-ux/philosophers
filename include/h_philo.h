@@ -24,7 +24,6 @@ enum STATUS {
 typedef struct s_philo {
     pthread_t   thread;
     int         id;
-    int         status;
     size_t      time_to_die;
     size_t      time_to_eat;
     size_t      time_to_sleep;
@@ -63,6 +62,7 @@ void	init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **argv)
 size_t  get_current_time();
 int	ft_isspace(int c);
 void	destroy_all(t_philo *philos, t_mtx *forks);
+int     ft_usleep(size_t msec);
 
 // create_thread.c
 int    create_thread(t_program program, t_philo *philos);
