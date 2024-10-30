@@ -14,7 +14,7 @@ void    *monitor(void *_philo)
         if (philo->num_times_to_eat < philo->meal_count)
             return (print_message(philo, "is died"), NULL);
     }
-    return philo;
+    return (philo);
 }
 
 void    *action_philo(void *_philo)
@@ -34,9 +34,12 @@ void    *action_philo(void *_philo)
 int    create_thread(t_program program, t_philo *philos)
 {
     int i;
-    pthread_t monitor;
+    pthread_t _monitor;
 
     i = 0;
+	_monitor = (pthread_t)malloc(sizeof(pthread_t));
+	if (!_monitor)
+		return (write(1, "Malloc Error\n", 13), false);
     while (i < program.num_of_philos)
     {
         if (pthread_create(&philos[i].thread, NULL, action_philo, &philos[i]) != 0)
@@ -48,7 +51,7 @@ int    create_thread(t_program program, t_philo *philos)
         i++;
     }
 
-    if (pthread_create(&monitor, NULL, monitor, philos) != 0)
+    if (pthread_create(&_monitor, NULL, monitor, philos) != 0)
         return (write(2, "Pthread_create Error\n", 21), false);
     i = 0;
     while (i > 0)
@@ -59,3 +62,4 @@ int    create_thread(t_program program, t_philo *philos)
     }
     return (0);
 }
+

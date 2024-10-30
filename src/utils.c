@@ -1,5 +1,12 @@
 #include "../include/h_philo.h"
 
+int	ft_isspace(int c)
+{
+	return (c == '\t' || c == '\n' ||
+           c == '\v' || c == '\f' ||
+           c == '\r' || c == ' ');
+}
+
 size_t  get_current_time()
 {
     struct timeval time;
@@ -9,18 +16,15 @@ size_t  get_current_time()
     return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void    all_destory(t_program *program, t_philo *philos)
+void	destroy_all(t_philo *philos, t_mtx *forks)
 {
     int i;
 
     i = 0;
-    pthread_mutex_destroy(&program[i].write_mtx);
-    pthread_mutex_destroy(&program[i].meal_mtx);
-    pthread_mutex_destroy(&program[i].death_mtx);
-    while (i < program->num_of_philos)
-    {
-        pthread_mutex_destroy(&philos[i].left_fork);
-        pthread_mutex_destroy(&philos[i].right_fork);
-        i++;
-    }
+    pthread_mutex_destroy(philos->write_mtx);
+    pthread_mutex_destroy(philos->meal_mtx);
+    pthread_mutex_destroy(philos->death_mtx);
+    while (i < philos->num_of_philos)
+		pthread_mutex_destroy(&forks[i++]);
 }
+
