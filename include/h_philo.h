@@ -73,6 +73,6 @@ void    print_message(t_philo *philo, char *message);
 void    eating(t_philo *philos);
 void    sleeping(t_philo *philos);
 void    thinking(t_philo *philos);
-void    *monitor(void *_philo);
+void    *monitor(void *_philos);
 
 #endif
