@@ -2,24 +2,9 @@
 
 bool	alloc_philos_forks(t_program program, t_philo **philos, t_mtx **forks)
 {
-	int	i;
-
-	i = 0;
 	*philos = (t_philo *)malloc(sizeof(t_philo) * program.num_of_philos);
 	if (!(*philos))
 		return (write(2, "Malloc Error\n", 13), false);
-	while (i < program.num_of_philos)
-	{
-		philos[i] = (t_philo *)malloc(sizeof(t_philo));
-		if (!philos[i])
-		{
-			while (i > 0)
-				free(philos[i--]);
-			free(*philos);
-			return (write(2, "Malloc Error\n", 13), false);
-		}
-		i++;
-	}
 	*forks = (t_mtx *)malloc(sizeof(t_mtx) * program.num_of_philos);
 	if (!(*forks))
 		return (write(2, "Malloc Error\n", 13), false);
@@ -69,21 +54,21 @@ void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **ar
     }
 }
 
-bool    init_program(t_program *program, t_philo *philos, t_mtx *forks, char **argv)
+bool    init_program(t_program *program, t_philo **philos, t_mtx **forks, char **argv)
 {
     program->num_of_philos = ft_atol(argv[1]);
-	if (!(alloc_philos_forks(*program, &philos, &forks)))
-		return false;
-    if (!init_fork(*program, forks))
+	if (!(alloc_philos_forks(*program, philos, forks)))
+		return (false);
+    if (!init_fork(*program, *forks))
         return (false);
-    init_philos(program, philos, forks, argv);
+    init_philos(program, *philos, *forks, argv);
     if (pthread_mutex_init(&program->write_mtx, NULL) != 0)
         return (write(2, "Mutex Error\n", 12), false);
     if (pthread_mutex_init(&program->meal_mtx, NULL) != 0)
         return (write(2, "Mutex Error\n", 12), false);
     if (pthread_mutex_init(&program->death_mtx, NULL) != 0)
         return (write(2, "Mutex Error\n", 12), false);
-    program->philos = philos;
+    program->philos = *philos;
     return (true);
 }
 
