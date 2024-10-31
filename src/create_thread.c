@@ -42,6 +42,7 @@ int    create_thread(t_program program, t_philo *philos)
 		return (write(1, "Malloc Error\n", 13), false);
     while (i < program.num_of_philos)
     {
+		ft_usleep(300);
         if (pthread_create(&philos[i].thread, NULL, action_philo, &philos[i]) != 0)
         {
             while (i > 0)

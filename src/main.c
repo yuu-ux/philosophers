@@ -39,13 +39,11 @@ int main(int argc, char **argv)
 		return (write(2, "usage: 5 900 300 300 5\n", 23), 1);
 	if (validate_arg(argv) == 1)
 		return (1);
-	if (!(init_program(&program, philos, forks, argv)))
-		return (1);
-		//return (destroy_all(philos, forks), 1);
+	if (!(init_program(&program, &philos, &forks, argv)))
+		return (destroy_all(philos, forks), 1);
 	if (!(create_thread(program, philos)))
-			return (1);
-			//return (destroy_all(philos, forks), 1);
-	// destroy_all(philos, forks);
+		return (destroy_all(philos, forks), 1);
+	destroy_all(philos, forks);
     return (0);
 }
 
