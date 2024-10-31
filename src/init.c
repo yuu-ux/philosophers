@@ -25,6 +25,17 @@ bool	init_fork(t_program program, t_mtx *forks)
     return (true);
 }
 
+void	input_data(t_philo *philo, char **argv)
+{
+	philo->time_to_die = ft_atol(argv[2]);
+	philo->time_to_eat = ft_atol(argv[3]);
+	philo->time_to_sleep = ft_atol(argv[4]);
+	if (argv[5])
+		philo->num_times_to_eat = ft_atol(argv[5]);
+	else
+		philo->num_times_to_eat = -1;
+}
+
 void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **argv)
 {
     int i;
@@ -33,9 +44,7 @@ void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **ar
     while (i < program->num_of_philos)
     {
         philos[i].id = i + 1;
-        philos[i].time_to_die = ft_atol(argv[2]);
-        philos[i].time_to_eat = ft_atol(argv[3]);
-        philos[i].time_to_sleep = ft_atol(argv[4]);
+		input_data(philos, argv);
         philos[i].meal_count = 0;
         philos[i].last_time = get_current_time();
         philos[i].start_time = get_current_time();
@@ -48,8 +57,6 @@ void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **ar
             philos[i].left_fork = forks[program->num_of_philos - 1];
         else
             philos[i].left_fork = forks[i - 1];
-        if (argv[5])
-            philos[i].num_times_to_eat = ft_atol(argv[5]);
         i++;
     }
 }
