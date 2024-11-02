@@ -96,7 +96,7 @@ int    create_thread(t_program program, t_philo *philos)
     i = 0;
 	(void)program;
     if (pthread_create(&_monitor, NULL, monitor, philos) != 0)
-		return (write(2, "Pthread_create Error\n", 21), false);
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
     while (i < program.num_of_philos)
     {
 		ft_usleep(300);
@@ -104,7 +104,7 @@ int    create_thread(t_program program, t_philo *philos)
         {
             while (i > 0)
                 pthread_detach(philos[i--].thread);
-            return (write(2, "Pthread_create Error\n", 21), false);
+            return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
         }
         i++;
     }
