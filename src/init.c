@@ -1,13 +1,14 @@
 #include "../include/h_philo.h"
+#include <unistd.h>
 
 bool	alloc_philos_forks(t_program program, t_philo **philos, t_mtx **forks)
 {
 	*philos = (t_philo *)malloc(sizeof(t_philo) * program.num_of_philos);
 	if (!(*philos))
-		return (write(2, "Malloc Error\n", 13), false);
+		return (write(STDERR_FILENO, "Malloc Error\n", 13), false);
 	*forks = (t_mtx *)malloc(sizeof(t_mtx) * program.num_of_philos);
 	if (!(*forks))
-		return (write(2, "Malloc Error\n", 13), false);
+		return (write(STDERR_FILENO, "Malloc Error\n", 13), false);
 	return (true);
 }
 
@@ -19,7 +20,7 @@ bool	init_fork(t_program program, t_mtx *forks)
     while (i < program.num_of_philos)
     {
         if (pthread_mutex_init(&forks[i], NULL) != 0)
-            return (write(2, "Mutex Error\n", 12), false);
+            return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
         i++;
     }
     return (true);
@@ -71,11 +72,11 @@ bool    init_program(t_program *program, t_philo **philos, t_mtx **forks, char *
         return (false);
     init_philos(program, *philos, *forks, argv);
     if (pthread_mutex_init(&program->write_mtx, NULL) != 0)
-        return (write(2, "Mutex Error\n", 12), false);
+        return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
     if (pthread_mutex_init(&program->meal_mtx, NULL) != 0)
-        return (write(2, "Mutex Error\n", 12), false);
+        return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
     if (pthread_mutex_init(&program->death_mtx, NULL) != 0)
-        return (write(2, "Mutex Error\n", 12), false);
+        return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
     program->philos = *philos;
     return (true);
 }
