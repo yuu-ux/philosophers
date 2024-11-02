@@ -27,6 +27,7 @@ bool	init_fork(t_program program, t_mtx *forks)
 
 void	input_data(t_philo *philo, char **argv)
 {
+	philo->num_of_philos = ft_atol(argv[1]);
 	philo->time_to_die = ft_atol(argv[2]);
 	philo->time_to_eat = ft_atol(argv[3]);
 	philo->time_to_sleep = ft_atol(argv[4]);
@@ -44,7 +45,7 @@ void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **ar
     while (i < program->num_of_philos)
     {
         philos[i].id = i + 1;
-		input_data(philos, argv);
+		input_data(&philos[i], argv);
         philos[i].meal_count = 0;
         philos[i].last_time = get_current_time();
         philos[i].start_time = get_current_time();
