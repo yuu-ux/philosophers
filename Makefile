@@ -14,7 +14,7 @@
 FILES = main.c init.c utils.c validate.c thread_func.c create_thread.c
 PHILO = philo
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
 SRCS = $(addprefix ./src/, $(FILES))
 OBJS = $(SRCS:.c=.o)
 
