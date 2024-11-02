@@ -1,20 +1,75 @@
 #include "../include/h_philo.h"
+#include <pthread.h>
 
-void    *monitor(void *_philo)
+
+int	philosopher_dead(t_philo *philo, size_t time_to_die)
 {
-    t_philo *philo;
-    size_t  current_date;
+	pthread_mutex_lock(philo->meal_mtx);
+	// philo->eatingもandで条件入れてる, 何かわからない
+	if (get_current_time() - philo->last_time >= time_to_die)
+		return (pthread_mutex_unlock(philo->meal_mtx), 1);
+	pthread_mutex_unlock(philo->meal_mtx);
+	return (0);
+}
 
-    philo = (t_philo *)_philo;
-    current_date = get_current_time();
+int	check_if_dead(t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos[0].num_of_philos)
+	{
+		if (philosopher_dead(&philos[i], philos[i].time_to_die))
+		{
+			print_message(&philos[i], "died");
+			pthread_mutex_lock(philos[0].death_mtx);
+			philos->is_dead = 1;
+			pthread_mutex_unlock(philos[0].death_mtx);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	check_if_all_ate(t_philo *philos)
+{
+	int	i;
+	int	finished_eating;
+
+	i = 0;
+	finished_eating = 0;
+	if (philos[0].num_times_to_eat == -1)
+		return (0);
+	while (i < philos[0].num_of_philos)
+	{
+		pthread_mutex_lock(philos[i].meal_mtx);
+		if (philos[i].meal_count >= philos[i].num_times_to_eat)
+			finished_eating++;
+		pthread_mutex_unlock(philos[i].meal_mtx);
+		i++;
+	}
+	if (finished_eating == philos[0].num_times_to_eat)
+	{
+		pthread_mutex_lock(philos[0].death_mtx);
+		philos->is_dead = 1;
+		pthread_mutex_unlock(philos[0].death_mtx);
+		return (1);
+	}
+	return (0);
+}
+
+void	*monitor(void *_philos)
+{
+    t_philo *philos;
+
+    philos = (t_philo *)_philos;
     while (1)
     {
-        if (philo->time_to_die < (current_date - philo->start_time))
-            return (print_message(philo, "is died"), NULL);
-        if (philo->num_times_to_eat < philo->meal_count)
-            return (print_message(philo, "is died"), NULL);
+		if (check_if_dead(philos) == 1 || check_if_all_ate(philos) == 1)
+			break ;
     }
-    return (philo);
+    return (philos);
 }
 
 void    *action_philo(void *_philo)
