@@ -63,9 +63,9 @@ void	init_philos(t_program *program, t_philo *philos, t_mtx *forks,
 		philos[i].start_time = get_current_time();
 		philos[i].meal_start_time = get_current_time();
 		philos[i].is_dead = &program->is_dead;
+		philos[i].is_eaten = false;
 		philos[i].right_fork = forks[i];
 		philos[i].write_mtx = &program->write_mtx;
-		philos[i].meal_mtx = &program->meal_mtx;
 		philos[i].death_mtx = &program->death_mtx;
 		if (i == 0)
 			philos[i].left_fork = forks[program->num_of_philos - 1];
@@ -86,8 +86,6 @@ bool	init_program(t_program *program, t_philo **philos, t_mtx **forks,
 		return (false);
 	init_philos(program, *philos, *forks, argv);
 	if (pthread_mutex_init(&program->write_mtx, NULL) != 0)
-		return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
-	if (pthread_mutex_init(&program->meal_mtx, NULL) != 0)
 		return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
 	if (pthread_mutex_init(&program->death_mtx, NULL) != 0)
 		return (write(STDERR_FILENO, "Mutex Error\n", 12), false);

@@ -43,7 +43,6 @@ void	destroy_all(t_philo *philos, t_mtx *forks)
 
 	i = 0;
 	pthread_mutex_destroy(philos->write_mtx);
-	pthread_mutex_destroy(philos->meal_mtx);
 	pthread_mutex_destroy(philos->death_mtx);
 	while (i < philos->num_of_philos)
 		pthread_mutex_destroy(&forks[i++]);

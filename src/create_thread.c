@@ -28,17 +28,11 @@ void	*action_philo(void *_philo)
 	philo = (t_philo *)_philo;
 	while (!dead_loop(philo))
 	{
-		if (*(philo->is_dead))
-			break ;
 		eating(philo);
 		if (*(philo->is_dead))
 			break ;
 		sleeping(philo);
-		if (*(philo->is_dead))
-			break ;
 		thinking(philo);
-		if (*(philo->is_dead))
-			break ;
 	}
 	return (NULL);
 }

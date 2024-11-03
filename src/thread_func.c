@@ -22,6 +22,11 @@ void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork);
 	print_message(philo, "has taken a fork");
+	if (philo->num_of_philos == 1)
+	{
+		*(philo->is_dead) = 1;
+		return ;
+	}
 	pthread_mutex_lock(&philo->right_fork);
 	print_message(philo, "has taken a fork");
 	print_message(philo, "is eating");
