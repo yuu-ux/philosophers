@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehara <yehara@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/03 17:13:58 by yehara            #+#    #+#             */
+/*   Updated: 2024/11/03 17:14:00 by yehara           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/h_philo.h"
 
 int	check_if_all_ate(t_philo *philos)
@@ -20,7 +32,7 @@ int	check_if_all_ate(t_philo *philos)
 	if (finished_eating == philos[0].num_times_to_eat)
 	{
 		pthread_mutex_lock(philos[0].death_mtx);
-		philos->is_dead = 1;
+		*(philos->is_dead) = 1;
 		pthread_mutex_unlock(philos[0].death_mtx);
 		return (1);
 	}
@@ -46,14 +58,9 @@ int	check_if_dead(t_philo *philos)
 		if (philosopher_dead(&philos[i], philos[i].time_to_die))
 		{
 			print_message(&philos[i], "died");
-			i = 0;
-			while (i < philos[0].num_of_philos)
-			{
-				pthread_mutex_lock(philos[i].death_mtx);
-				philos[i].is_dead = true;
-				pthread_mutex_unlock(philos[i].death_mtx);
-				i++;
-			}
+			pthread_mutex_lock(philos[i].death_mtx);
+			*(philos[0].is_dead) = true;
+			pthread_mutex_unlock(philos[i].death_mtx);
 			return (1);
 		}
 		i++;
@@ -63,15 +70,13 @@ int	check_if_dead(t_philo *philos)
 
 void	*monitor(void *_philos)
 {
-    t_philo *philos;
+	t_philo	*philos;
 
-    philos = (t_philo *)_philos;
-
-    while (1)
-    {
+	philos = (t_philo *)_philos;
+	while (1)
+	{
 		if (check_if_dead(philos) == 1) // || check_if_all_ate(philos) == 1
 			break ;
-    }
-    return (philos);
+	}
+	return (philos);
 }
-
