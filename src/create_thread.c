@@ -72,3 +72,4 @@ int	create_thread(t_program program, t_philo *philos)
 	}
 	return (0);
 }
+
