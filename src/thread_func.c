@@ -2,10 +2,7 @@
 
 void    print_message(t_philo *philo, char *message)
 {
-    long current_date;
-
-    current_date = philo->last_time - philo->start_time;
-    printf("%ld %d %s\n", current_date, philo->id, message);
+    printf("%ld %d %s\n", (get_current_time() - philo->start_time), philo->id, message);
 }
 
 void    eating(t_philo *philo)
@@ -16,9 +13,10 @@ void    eating(t_philo *philo)
     print_message(philo, "has taken a fork");
     print_message(philo, "is eating");
     pthread_mutex_lock(philo->write_mtx);
-    philo->last_time = get_current_time();
+    philo->start_time = get_current_time();
     philo->meal_count++;
     pthread_mutex_unlock(philo->write_mtx);
+	ft_usleep(philo->time_to_eat);
     pthread_mutex_unlock(&philo->left_fork);
     pthread_mutex_unlock(&philo->right_fork);
 }

@@ -29,8 +29,8 @@ typedef struct s_philo {
     size_t      time_to_sleep;
     int         num_times_to_eat;
     int         meal_count;
-    size_t      last_time;
     size_t      start_time;
+    size_t      meal_start_time;
     bool        is_dead;
     t_mtx       left_fork;
     t_mtx       right_fork;

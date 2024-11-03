@@ -30,7 +30,7 @@ int	check_if_all_ate(t_philo *philos)
 int	philosopher_dead(t_philo *philo, size_t time_to_die)
 {
 	pthread_mutex_lock(philo->write_mtx);
-	if ((get_current_time() - philo->last_time) >= time_to_die)
+	if ((get_current_time() - philo->start_time) >= time_to_die)
 		return (pthread_mutex_unlock(philo->meal_mtx), 1);
 	pthread_mutex_unlock(philo->write_mtx);
 	return (0);
@@ -47,7 +47,7 @@ int	check_if_dead(t_philo *philos)
 		{
 			print_message(&philos[i], "died");
 			pthread_mutex_lock(philos[0].death_mtx);
-			philos->is_dead = 1;
+			philos->is_dead = true;
 			pthread_mutex_unlock(philos[0].death_mtx);
 			return (1);
 		}
@@ -70,20 +70,25 @@ void	*monitor(void *_philos)
     return (philos);
 }
 
+int	dead_loop(t_philo *philo)
+{
+	pthread_mutex_lock(philo->death_mtx);
+	if (philo->is_dead == 1)
+		return (pthread_mutex_unlock(philo->death_mtx), 1);
+	pthread_mutex_unlock(philo->death_mtx);
+	return (0);
+}
+
 void    *action_philo(void *_philo)
 {
     t_philo *philo;
 
     philo = (t_philo *)_philo;
-    while (1)
+    while (!dead_loop(philo))
     {
         eating(philo);
         sleeping(philo);
         thinking(philo);
-		pthread_mutex_lock(philo->death_mtx);
-		if (philo->is_dead)
-			break ;
-		pthread_mutex_unlock(philo->death_mtx);
     }
     return NULL;
 }
@@ -94,12 +99,10 @@ int    create_thread(t_program program, t_philo *philos)
     pthread_t _monitor;
 
     i = 0;
-	(void)program;
     if (pthread_create(&_monitor, NULL, monitor, philos) != 0)
 		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
     while (i < program.num_of_philos)
     {
-		ft_usleep(300);
         if (pthread_create(&philos[i].thread, NULL, action_philo, &philos[i]) != 0)
         {
             while (i > 0)

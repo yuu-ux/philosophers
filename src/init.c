@@ -48,8 +48,8 @@ void    init_philos(t_program *program, t_philo *philos, t_mtx *forks, char **ar
         philos[i].id = i + 1;
 		input_data(&philos[i], argv);
         philos[i].meal_count = 0;
-        philos[i].last_time = get_current_time();
         philos[i].start_time = get_current_time();
+		philos[i].meal_start_time = get_current_time();
         philos[i].is_dead = false;
         philos[i].right_fork = forks[i];
         philos[i].write_mtx = &program->write_mtx;
