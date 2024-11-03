@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 
-FILES = main.c init.c utils.c validate.c thread_func.c create_thread.c
+FILES = main.c init.c utils.c validate.c thread_func.c create_thread.c monitor.c
 PHILO = philo
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=thread

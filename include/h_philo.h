@@ -73,6 +73,11 @@ void    print_message(t_philo *philo, char *message);
 void    eating(t_philo *philos);
 void    sleeping(t_philo *philos);
 void    thinking(t_philo *philos);
-void    *monitor(void *_philos);
+
+// monitor.c
+int		check_if_all_ate(t_philo *philos);
+int		philosopher_dead(t_philo *philo, size_t time_to_die);
+int		check_if_dead(t_philo *philos);
+void	*monitor(void *_philos);
 
 #endif

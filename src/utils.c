@@ -36,11 +36,7 @@ void	destroy_all(t_philo *philos, t_mtx *forks)
     pthread_mutex_destroy(philos->death_mtx);
     while (i < philos->num_of_philos)
 		pthread_mutex_destroy(&forks[i++]);
-	i = 0;
-	while (i < philos->num_of_philos)
-		free(forks);
-	i = 0;
-	while (i < philos->num_of_philos)
-		free(philos);
+	free(forks);
+	free(philos);
 }
 

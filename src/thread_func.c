@@ -23,8 +23,8 @@ void    eating(t_philo *philo)
 
 void    sleeping(t_philo *philo)
 {
+	print_message(philo, "is sleeping");
     ft_usleep(philo->time_to_sleep);
-    print_message(philo, "is sleeping");
 }
 
 void    thinking(t_philo *philo)
