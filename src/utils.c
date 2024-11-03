@@ -1,19 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehara <yehara@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/03 17:13:44 by yehara            #+#    #+#             */
+/*   Updated: 2024/11/03 17:13:46 by yehara           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/h_philo.h"
 
 int	ft_isspace(int c)
 {
-	return (c == '\t' || c == '\n' ||
-           c == '\v' || c == '\f' ||
-           c == '\r' || c == ' ');
+	return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
+		|| c == ' ');
 }
 
-size_t	get_current_time()
+size_t	get_current_time(void)
 {
-    struct timeval	time;
+	struct timeval	time;
 
-    if (gettimeofday(&time, NULL) == -1)
-        return (-1);
-    return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	if (gettimeofday(&time, NULL) == -1)
+		return (-1);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 int	ft_usleep(size_t msec)
@@ -31,16 +42,11 @@ void	destroy_all(t_philo *philos, t_mtx *forks)
 	int	i;
 
 	i = 0;
-    pthread_mutex_destroy(philos->write_mtx);
-    pthread_mutex_destroy(philos->meal_mtx);
-    pthread_mutex_destroy(philos->death_mtx);
-    while (i < philos->num_of_philos)
+	pthread_mutex_destroy(philos->write_mtx);
+	pthread_mutex_destroy(philos->meal_mtx);
+	pthread_mutex_destroy(philos->death_mtx);
+	while (i < philos->num_of_philos)
 		pthread_mutex_destroy(&forks[i++]);
-	i = 0;
-	while (i < philos->num_of_philos)
-		free(forks);
-	i = 0;
-	while (i < philos->num_of_philos)
-		free(philos);
+	free(forks);
+	free(philos);
 }
-
