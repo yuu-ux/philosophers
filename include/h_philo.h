@@ -35,8 +35,8 @@ typedef struct s_philo
 	size_t				meal_start_time;
 	bool				*is_dead;
 	bool				is_eaten;
-	t_mtx				left_fork;
-	t_mtx				right_fork;
+	t_mtx				*left_fork;
+	t_mtx				*right_fork;
 	t_mtx				*write_mtx;
 	t_mtx				*death_mtx;
 	int					num_of_philos;

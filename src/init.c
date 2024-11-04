@@ -64,13 +64,13 @@ void	init_philos(t_program *program, t_philo *philos, t_mtx *forks,
 		philos[i].meal_start_time = get_current_time();
 		philos[i].is_dead = &program->is_dead;
 		philos[i].is_eaten = false;
-		philos[i].right_fork = forks[i];
+		philos[i].right_fork = &forks[i];
 		philos[i].write_mtx = &program->write_mtx;
 		philos[i].death_mtx = &program->death_mtx;
 		if (i == 0)
-			philos[i].left_fork = forks[program->num_of_philos - 1];
+			philos[i].left_fork = &forks[program->num_of_philos - 1];
 		else
-			philos[i].left_fork = forks[i - 1];
+			philos[i].left_fork = &forks[i - 1];
 		i++;
 	}
 }

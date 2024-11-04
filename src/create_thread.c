@@ -28,17 +28,9 @@ void	*action_philo(void *_philo)
 	philo = (t_philo *)_philo;
 	while (!dead_loop(philo))
 	{
-		if (*(philo->is_dead))
-			break ;
 		eating(philo);
-		if (*(philo->is_dead))
-			break ;
 		sleeping(philo);
-		if (*(philo->is_dead))
-			break ;
 		thinking(philo);
-		if (*(philo->is_dead))
-			break ;
 	}
 	return (NULL);
 }
@@ -63,7 +55,7 @@ int	create_thread(t_program program, t_philo *philos)
 		i += 2;
 	}
 	i = 1;
-	ft_usleep(200);
+	ft_usleep(philos->time_to_eat);
 	while (i < program.num_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, action_philo,
