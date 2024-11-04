@@ -31,7 +31,7 @@ void	eating(t_philo *philo)
 	print_message(philo, "has taken a fork");
 	print_message(philo, "is eating");
 	pthread_mutex_lock(philo->write_mtx);
-	philo->start_time = get_current_time();
+	philo->meal_start_time = get_current_time();
 	philo->meal_count++;
 	pthread_mutex_unlock(philo->write_mtx);
 	ft_usleep(philo->time_to_eat);

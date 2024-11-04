@@ -28,11 +28,17 @@ void	*action_philo(void *_philo)
 	philo = (t_philo *)_philo;
 	while (!dead_loop(philo))
 	{
+		if (*(philo->is_dead))
+			break ;
 		eating(philo);
 		if (*(philo->is_dead))
 			break ;
 		sleeping(philo);
+		if (*(philo->is_dead))
+			break ;
 		thinking(philo);
+		if (*(philo->is_dead))
+			break ;
 	}
 	return (NULL);
 }
@@ -54,7 +60,20 @@ int	create_thread(t_program program, t_philo *philos)
 				pthread_detach(philos[i--].thread);
 			return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
 		}
-		i++;
+		i += 2;
+	}
+	i = 1;
+	ft_usleep(200);
+	while (i < program.num_of_philos)
+	{
+		if (pthread_create(&philos[i].thread, NULL, action_philo,
+				&philos[i]) != 0)
+		{
+			while (i > 0)
+				pthread_detach(philos[i--].thread);
+			return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
+		}
+		i += 2;
 	}
 	if (pthread_join(_monitor, NULL) != 0)
 		return (1);
