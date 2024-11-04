@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   h_philo.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehara <yehara@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/04 22:25:10 by yehara            #+#    #+#             */
+/*   Updated: 2024/11/04 22:25:12 by yehara           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef H_PHILO_H
 # define H_PHILO_H
 # include <errno.h>
@@ -12,15 +24,8 @@
 
 # define MAX_PHILO 200
 # define MIN_TIME 60
-typedef pthread_mutex_t	t_mtx;
 
-enum					STATUS
-{
-	MEAL,
-	SLEEP,
-	THINK,
-	DIE,
-};
+typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {

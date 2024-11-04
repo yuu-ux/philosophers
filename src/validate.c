@@ -38,7 +38,7 @@ int	validate_arg(char **argv)
 	else if (argv[5])
 	{
 		must_eat_num = ft_atol(argv[5]);
-		if (must_eat_num < 0 || must_eat_num == 1)
+		if (must_eat_num < 0)
 			return (write(STDERR_FILENO, "error: must_eat_num\n", 21), 1);
 	}
 	return (0);

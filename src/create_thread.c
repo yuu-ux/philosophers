@@ -35,14 +35,11 @@ void	*action_philo(void *_philo)
 	return (NULL);
 }
 
-int	create_thread(t_program program, t_philo *philos)
+bool	create_even_philos(t_program program, t_philo *philos)
 {
-	int			i;
-	pthread_t	_monitor;
+	int	i;
 
 	i = 0;
-	if (pthread_create(&_monitor, NULL, monitor, philos) != 0)
-		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
 	while (i < program.num_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, action_philo,
@@ -50,10 +47,17 @@ int	create_thread(t_program program, t_philo *philos)
 		{
 			while (i > 0)
 				pthread_detach(philos[i--].thread);
-			return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
+			return (false);
 		}
 		i += 2;
 	}
+	return (true);
+}
+
+bool	create_odd_philos(t_program program, t_philo *philos)
+{
+	int	i;
+
 	i = 1;
 	ft_usleep(philos->time_to_eat);
 	while (i < program.num_of_philos)
@@ -63,10 +67,25 @@ int	create_thread(t_program program, t_philo *philos)
 		{
 			while (i > 0)
 				pthread_detach(philos[i--].thread);
-			return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
+			return (false);
 		}
 		i += 2;
 	}
+	return (true);
+}
+
+int	create_thread(t_program program, t_philo *philos)
+{
+	int			i;
+	pthread_t	_monitor;
+
+	i = 0;
+	if (pthread_create(&_monitor, NULL, monitor, philos) != 0)
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
+	if (!(create_even_philos(program, philos)))
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
+	if (!(create_odd_philos(program, philos)))
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
 	if (pthread_join(_monitor, NULL) != 0)
 		return (1);
 	i = 0;
@@ -77,4 +96,3 @@ int	create_thread(t_program program, t_philo *philos)
 	}
 	return (0);
 }
-

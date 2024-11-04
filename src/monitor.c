@@ -23,18 +23,16 @@ int	check_if_all_ate(t_philo *philos)
 	{
 		pthread_mutex_lock(philos[0].write_mtx);
 		if (philos[i].meal_count >= philos[i].num_times_to_eat)
-			philos[i].is_eaten = true;
+			philos[i++].is_eaten = true;
 		pthread_mutex_unlock(philos[0].write_mtx);
-		i++;
 	}
 	i = 0;
 	while (i < philos[0].num_of_philos)
 	{
 		pthread_mutex_lock(philos[0].write_mtx);
-		if (philos[i].is_eaten == false)
+		if (philos[i++].is_eaten == false)
 			return (pthread_mutex_unlock(philos[0].write_mtx), 0);
 		pthread_mutex_unlock(philos[0].write_mtx);
-		i++;
 	}
 	pthread_mutex_lock(philos[0].death_mtx);
 	*(philos[0].is_dead) = true;
