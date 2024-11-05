@@ -12,18 +12,18 @@
 
 #include "../include/h_philo.h"
 
-bool	alloc_philos_forks(t_program program, t_philo **philos, t_mtx **forks)
+int	alloc_philos_forks(t_program program, t_philo **philos, t_mtx **forks)
 {
 	*philos = (t_philo *)malloc(sizeof(t_philo) * program.num_of_philos);
 	if (!(*philos))
-		return (write(STDERR_FILENO, "Malloc Error\n", 13), false);
+		return (write(STDERR_FILENO, "Malloc Error\n", 13), 1);
 	*forks = (t_mtx *)malloc(sizeof(t_mtx) * program.num_of_philos);
 	if (!(*forks))
-		return (write(STDERR_FILENO, "Malloc Error\n", 13), false);
-	return (true);
+		return (write(STDERR_FILENO, "Malloc Error\n", 13), 1);
+	return (0);
 }
 
-bool	init_fork(t_program program, t_mtx *forks)
+int	init_fork(t_program program, t_mtx *forks)
 {
 	int	i;
 
@@ -31,10 +31,10 @@ bool	init_fork(t_program program, t_mtx *forks)
 	while (i < program.num_of_philos)
 	{
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
-			return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
+			return (write(STDERR_FILENO, "Mutex Error\n", 12), 1);
 		i++;
 	}
-	return (true);
+	return (0);
 }
 
 void	input_data(t_philo *philo, char **argv)
@@ -75,20 +75,20 @@ void	init_philos(t_program *program, t_philo *philos, t_mtx *forks,
 	}
 }
 
-bool	init_program(t_program *program, t_philo **philos, t_mtx **forks,
+int	init_program(t_program *program, t_philo **philos, t_mtx **forks,
 		char **argv)
 {
 	program->num_of_philos = ft_atol(argv[1]);
 	program->is_dead = false;
-	if (!(alloc_philos_forks(*program, philos, forks)))
-		return (false);
-	if (!init_fork(*program, *forks))
-		return (false);
+	if (alloc_philos_forks(*program, philos, forks))
+		return (1);
+	if (init_fork(*program, *forks))
+		return (1);
 	init_philos(program, *philos, *forks, argv);
 	if (pthread_mutex_init(&program->write_mtx, NULL) != 0)
-		return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
+		return (write(STDERR_FILENO, "Mutex Error\n", 12), 1);
 	if (pthread_mutex_init(&program->death_mtx, NULL) != 0)
-		return (write(STDERR_FILENO, "Mutex Error\n", 12), false);
+		return (write(STDERR_FILENO, "Mutex Error\n", 12), 1);
 	program->philos = *philos;
-	return (true);
+	return (0);
 }

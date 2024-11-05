@@ -35,7 +35,7 @@ void	*action_philo(void *_philo)
 	return (NULL);
 }
 
-bool	create_even_philos(t_program program, t_philo *philos)
+int	create_even_philos(t_program program, t_philo *philos)
 {
 	int	i;
 
@@ -45,16 +45,19 @@ bool	create_even_philos(t_program program, t_philo *philos)
 		if (pthread_create(&philos[i].thread, NULL, action_philo,
 				&philos[i]) != 0)
 		{
-			while (i > 0)
-				pthread_detach(philos[i--].thread);
-			return (false);
+			while (i >= 0)
+			{
+				i -= 2;
+				pthread_detach(philos[i].thread);
+			}
+			return (1);
 		}
 		i += 2;
 	}
-	return (true);
+	return (0);
 }
 
-bool	create_odd_philos(t_program program, t_philo *philos)
+int	create_odd_philos(t_program program, t_philo *philos)
 {
 	int	i;
 
@@ -65,28 +68,31 @@ bool	create_odd_philos(t_program program, t_philo *philos)
 		if (pthread_create(&philos[i].thread, NULL, action_philo,
 				&philos[i]) != 0)
 		{
-			while (i > 0)
-				pthread_detach(philos[i--].thread);
-			return (false);
+			while (i >= 1)
+			{
+				i -= 2;
+				pthread_detach(philos[i].thread);
+			}
+			return (1);
 		}
 		i += 2;
 	}
-	return (true);
+	return (0);
 }
 
 int	create_thread(t_program program, t_philo *philos)
 {
 	int			i;
-	pthread_t	_monitor;
+	pthread_t	observer;
 
 	i = 0;
-	if (pthread_create(&_monitor, NULL, monitor, philos) != 0)
-		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
-	if (!(create_even_philos(program, philos)))
-		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
-	if (!(create_odd_philos(program, philos)))
-		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), false);
-	if (pthread_join(_monitor, NULL) != 0)
+	if (pthread_create(&observer, NULL, monitor, philos) != 0)
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), 1);
+	if (create_even_philos(program, philos))
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), 1);
+	if (create_odd_philos(program, philos))
+		return (write(STDERR_FILENO, "Pthread_create Error\n", 21), 1);
+	if (pthread_join(observer, NULL) != 0)
 		return (1);
 	i = 0;
 	while (i < program.num_of_philos)

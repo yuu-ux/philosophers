@@ -63,7 +63,7 @@ long					ft_atol(char *str);
 int						validate_arg(char **argv);
 
 // init.c
-bool					init_program(t_program *program, t_philo **philos,
+int						init_program(t_program *program, t_philo **philos,
 							t_mtx **forks, char **argv);
 void					init_philos(t_program *program, t_philo *philos,
 							t_mtx *forks, char **argv);
