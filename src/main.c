@@ -43,16 +43,16 @@ long	ft_atol(char *str)
 int	main(int argc, char **argv)
 {
 	t_program	program;
-	t_philo		*philos = {0};
-	t_mtx		*forks = {0};
+	t_philo		*philos;
+	t_mtx		*forks;
 
 	if (!(argc == 5 || argc == 6))
 		return (write(STDERR_FILENO, "usage: 5 900 300 300 5\n", 23), 1);
 	if (validate_arg(argv) == 1)
 		return (1);
-	if (!(init_program(&program, &philos, &forks, argv)))
+	if (init_program(&program, &philos, &forks, argv))
 		return (destroy_all(philos, forks), 1);
-	if (!(create_thread(program, philos)))
+	if (create_thread(program, philos))
 		return (destroy_all(philos, forks), 0);
 	destroy_all(philos, forks);
 	return (0);

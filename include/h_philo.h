@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   h_philo.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehara <yehara@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/04 22:25:10 by yehara            #+#    #+#             */
+/*   Updated: 2024/11/04 22:25:12 by yehara           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef H_PHILO_H
 # define H_PHILO_H
 # include <errno.h>
@@ -12,15 +24,8 @@
 
 # define MAX_PHILO 200
 # define MIN_TIME 60
-typedef pthread_mutex_t	t_mtx;
 
-enum					STATUS
-{
-	MEAL,
-	SLEEP,
-	THINK,
-	DIE,
-};
+typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {
@@ -34,10 +39,10 @@ typedef struct s_philo
 	size_t				start_time;
 	size_t				meal_start_time;
 	bool				*is_dead;
-	t_mtx				left_fork;
-	t_mtx				right_fork;
+	bool				is_eaten;
+	t_mtx				*left_fork;
+	t_mtx				*right_fork;
 	t_mtx				*write_mtx;
-	t_mtx				*meal_mtx;
 	t_mtx				*death_mtx;
 	int					num_of_philos;
 }						t_philo;
@@ -46,7 +51,6 @@ typedef struct s_program
 {
 	bool				is_dead;
 	t_mtx				write_mtx;
-	t_mtx				meal_mtx;
 	t_mtx				death_mtx;
 	int					num_of_philos;
 	t_philo				*philos;
@@ -59,7 +63,7 @@ long					ft_atol(char *str);
 int						validate_arg(char **argv);
 
 // init.c
-bool					init_program(t_program *program, t_philo **philos,
+int						init_program(t_program *program, t_philo **philos,
 							t_mtx **forks, char **argv);
 void					init_philos(t_program *program, t_philo *philos,
 							t_mtx *forks, char **argv);
